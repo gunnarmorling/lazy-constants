@@ -1,4 +1,4 @@
-package com.example.constantdynamic.runner;
+package dev.morling.lazyconstant.runner;
 
 import static org.junit.Assert.assertEquals;
 
