@@ -29,6 +29,7 @@ public class LazyConstantDemo {
     }
 
     public String getLazyValue() {
+        out.println("getLazyValue()");
         return LAZY_VALUE;
     }
 
@@ -45,6 +46,13 @@ public class LazyConstantDemo {
         out.println("doGetEagerValue()");
         return System.getenv("EAGER_VALUE");
     }
+
+    public static void main(String... args) {
+        LazyConstantDemo vp = new LazyConstantDemo();
+        vp.getEagerValue();
+        vp.getLazyValue();
+        vp.getLazyValue();
+    }
 }
 ```
 
@@ -52,25 +60,18 @@ public class LazyConstantDemo {
 `@Lazy` is the hint to the same plug-in to replace all references to the annotated field with an `ldc` instruction, referencing the specified bootstrap method.
 This will be invoked once upon first reference to the lazy constant.
 
-So when running the following:
-
-```
-LazyConstantDemo vp = new LazyConstantDemo();
-
-vp.getEagerValue();
-vp.getLazyValue();
-vp.getLazyValue();
-```
-
-Then you'll see the following output:
+When running the class, you'll see the following output:
 
 ```
 doGetEagerValue()
-ValueProviderDemo()
+LazyConstantDemo()
+getLazyValue()
 doGetLazyValue()
+getLazyValue()
 ```
 
-Note how `doGetLazyValue()` is invoked only once upon first access to the `LAZY_VALUE` static final field.
+Note how `doGetLazyValue()` is invoked only once upon first call to `getLazyValue()`;
+during the second call, the previously resolved constant value for `LAZY_VALUE` is returned.
 
 ## Performance Characteristics
 

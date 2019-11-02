@@ -18,6 +18,7 @@ public class LazyConstantDemo {
     }
 
     public String getLazyValue() {
+        out.println("getLazyValue()");
         return LAZY_VALUE;
     }
 
@@ -33,5 +34,12 @@ public class LazyConstantDemo {
     private static String doGetEagerValue() {
         out.println("doGetEagerValue()");
         return System.getenv("EAGER_VALUE");
+    }
+
+    public static void main(String... args) {
+        LazyConstantDemo vp = new LazyConstantDemo();
+        vp.getEagerValue();
+        vp.getLazyValue();
+        vp.getLazyValue();
     }
 }
